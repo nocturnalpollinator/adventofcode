@@ -1,7 +1,7 @@
 module.exports = {
     run: (glob) => {
-        const n = glob.file.replace(/(?:\r\n|\r|\n)/g, ',').split(',,')
-            .map(x => x.split(',')
+        const n = glob.file.split('\n\n')
+            .map(x => x.split('\n')
                 .map(x => parseInt(x))
                 .reduce((a, b) => a + b)
             ).sort((a, b) => b - a)
