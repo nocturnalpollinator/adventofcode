@@ -4,13 +4,13 @@ module.exports = {
          * Tried to make it readable, but what's the point...
          */
         const n = glob.fsn
-        const filterCharCode = (a) => getCharCode(a[0].filter(x => a[1].includes(x)))
+        const filterCharCode = a => getCharCode(a[0].filter(x => a[1].includes(x)))
 
         const getCharCode = a => a.filter((x, i) => x.indexOf(x) == i)
             .map((x, i) => x.toUpperCase() === x ? x.charCodeAt(i) - 38 : x.charCodeAt(i) - 96)
 
         const prio = n.map(x => 
-                filterCharCode([x.slice(0, x.length / 2).split(''), x.slice(x.length/2).split('')])
+                filterCharCode([x.slice(0, x.length / 2).split(''), x.slice(x.length / 2).split('')])
                 .reduce((a, b) => a + b)
             ).reduce((a, b) => a + b)
 
