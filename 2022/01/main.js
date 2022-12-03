@@ -4,7 +4,7 @@ module.exports = {
             .map(x => x.split('\n')
                 .map(x => parseInt(x))
                 .sum()
-            ).sort((a, b) => b - a)
+            ).sortNumDesc()
 
         const pt1 = n[0]
         const pt2 = n[0] + n[1] + n[2]

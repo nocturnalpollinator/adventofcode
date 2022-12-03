@@ -1,12 +1,9 @@
 module.exports = {
     run: (helpers) => {
-        /**
-         * Tried to make it readable, but what's the point...
-         */
         const n = helpers.fsn
         const filterCharCode = a => getCharCode(a[0].filter(x => a[1].includes(x)))
 
-        const getCharCode = a => a.filter((x, i) => x.indexOf(x) == i)
+        const getCharCode = a => a.uniq()
             .map((x, i) => x.toUpperCase() === x ? x.charCodeAt(i) - 38 : x.charCodeAt(i) - 96)
 
         const prio = n.map(x => 
