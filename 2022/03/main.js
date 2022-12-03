@@ -14,8 +14,8 @@ module.exports = {
                 .reduce((a, b) => a + b)
             ).reduce((a, b) => a + b)
 
-        const groups = n.map((x, i) => !(i % 3) ? n.slice(i, i + 3) : [])
-            .filter(x => x.length > 0)
+        const groups = n.map((x, i) => !(i % 3) ? n.slice(i, i + 3) : false)
+            .filter(x => !!x)
 
         const badge = groups.map(a => 
                 getCharCode(a[0].split('')
