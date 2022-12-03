@@ -1,9 +1,9 @@
 module.exports = {
-    run: (glob) => {
-        const n = glob.file.split('\n\n')
+    run: (helpers) => {
+        const n = helpers.file.split('\n\n')
             .map(x => x.split('\n')
                 .map(x => parseInt(x))
-                .reduce((a, b) => a + b)
+                .sum()
             ).sort((a, b) => b - a)
 
         const pt1 = n[0]

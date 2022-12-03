@@ -1,3 +1,11 @@
+Object.defineProperties(Array.prototype, {
+    sum: {
+        value: function() {
+            return this.reduce((a, b) => a + b)
+        }
+    }
+})
+
 const file = (filename = './' + day + '/input.txt', charset = 'utf-8') => {
     return require('fs').readFileSync(filename, charset)
 }

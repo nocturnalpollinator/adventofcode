@@ -1,6 +1,6 @@
 module.exports = {
-    run: (glob) => {
-        const n = glob.fsn
+    run: (helpers) => {
+        const n = helpers.fsn
         const strat = {
             // Rock
             A: {
@@ -24,11 +24,11 @@ module.exports = {
 
         const count = n.reduce((acc, c) => c.length > 0 ? acc + strat[c[0]][c[2]] : acc, 0)
 
-        const count2 = n.reduce((acc, c) => c.length > 0 ? (
+        const count2 = n.reduce((acc, c) => c.length > 0 ?
             c[2] == 'X' ? acc + Object.values(strat[c[0]]).filter(x => x < 4).pop() :
             c[2] == 'Y' ? acc + Object.values(strat[c[0]]).filter(x => x > 3 && x < 7).pop() :
             acc + Object.values(strat[c[0]]).filter(x => x > 6).pop()
-        ) : acc, 0)
+        : acc, 0)
 
         const pt1 = count
         const pt2 = count2
