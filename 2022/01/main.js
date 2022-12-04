@@ -2,7 +2,7 @@ module.exports = {
     run: (helpers) => {
         const n = helpers.file.split('\n\n')
             .map(x => x.split('\n')
-                .map(x => parseInt(x))
+                .arrToInt()
                 .sum()
             ).sortNumDesc()
 
