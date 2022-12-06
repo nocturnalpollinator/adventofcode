@@ -2,15 +2,13 @@ module.exports = {
     run: (helpers) => {
         const n = helpers.file.split('')
         const unique = (acc, x, i, length) => {
-            if (Array.isArray(acc)) {
-                if (acc.length == length) {
-                    if (acc.uniq().length == length) {
-                        return i
-                    }
-                    acc.shift()
-                } 
-                acc.push(x)
-            }
+            if (!Array.isArray(acc)) return acc
+
+            if (acc.length == length && acc.uniq().length == length) return i
+
+            if (acc.length == length) acc.shift()
+
+            acc.push(x)
             return acc
         }
 
