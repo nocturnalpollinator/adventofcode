@@ -14,8 +14,8 @@ module.exports = {
             return acc
         }
 
-        const pt1 = n.split('').reduce((acc, x, i) => unique(acc, x, i, 4), []);
-        const pt2 = n.split('').reduce((acc, x, i) => unique(acc, x, i, 14), []);
+        const pt1 = n.split('').reduce((acc, x, i) => unique(acc, x, i, 4), [])
+        const pt2 = n.split('').reduce((acc, x, i) => unique(acc, x, i, 14), [])
         
         return { result: `Part I: ${pt1}\nPart II: ${pt2}` }
     }
