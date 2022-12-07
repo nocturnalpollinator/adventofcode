@@ -21,7 +21,7 @@ module.exports = {
         for (var i = 0; i < movements.length; i++) {
             var c = crates2[movements[i][1] - 1].slice(0, movements[i][0]).reverse()
             for (var j = 0; j < c.length; j++) {
-                crates2[movements[i][2] - 1].unshift(h[j])
+                crates2[movements[i][2] - 1].unshift(c[j])
                 crates2[movements[i][1] - 1].shift()
             }
             for (var j = 0; j < movements[i][0]; j++) {
