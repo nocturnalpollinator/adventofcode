@@ -47,7 +47,6 @@ module.exports = {
                     parent: pwd[0]
                 }
                 changePwd(c[1])
-                
             }
 
             if (c[0] == 'ls') {
@@ -61,16 +60,12 @@ module.exports = {
             }
         })
 
-
         const sizes = []
-        for (const [key, value] of Object.entries(tree)) {
-            if (value.size <= 100000)
-                sizes.push(value.size)
-        }
-
         const space = 70000000 - tree['/'].size
         const save = []
         for (const [key, value] of Object.entries(tree)) {
+            if (value.size <= 100000)
+                sizes.push(value.size)
             if (space + value.size >= 30000000)
                 save.push(value.size)
         }
