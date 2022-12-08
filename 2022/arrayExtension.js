@@ -41,6 +41,12 @@ Object.defineProperties(Array.prototype, {
         value: function() {
             return this.map(x => parseInt(x))
         }
+    },
+    setSingle: {
+        value: function(x) {
+            this.pop()
+            this.push(x)
+        }
     }
 })
 

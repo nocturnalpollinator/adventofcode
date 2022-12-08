@@ -7,20 +7,9 @@ module.exports = {
         const scenicScore = [0];
         const scenicScores = []
 
-        const setScenicScore = x => {
-            scenicScore.pop()
-            scenicScore.push(x)
-        }
+        const countScenic = (basei, i, modifier) => scenicScore.setSingle(scenicScore[0] == 0 ? Math.abs(basei - i) / Math.abs(modifier) : scenicScore[0] * (Math.abs(basei - i) / Math.abs(modifier)))
 
-        const countScenic = (basei, i, modifier) => {
-            if (scenicScore[0] == 0) {
-                setScenicScore(Math.abs(basei - i) / Math.abs(modifier))
-            } else {
-                setScenicScore(scenicScore[0] * (Math.abs(basei - i) / Math.abs(modifier)))
-            } 
-        }
-
-        const borderCollision = (x, i) => i < width || i % width == 0 || i % width == width - 1 || i > (width * height - width - 1)
+        const borderCollision = i => i < width || i % width == 0 || i % width == width - 1 || i > (width * height - width - 1)
 
         const checkLine = (x, i, modifier, basei) => {
             if (x <= grid[i]) {
@@ -28,7 +17,7 @@ module.exports = {
                 return true
             }
             
-            if (borderCollision(x, i)) {
+            if (borderCollision(i)) {
                 countScenic(basei, i, modifier)
                 return false
             }
@@ -37,8 +26,8 @@ module.exports = {
         }
 
         const candidates = grid.map((x, i) => {
-            setScenicScore(0)
-            if (borderCollision(x, i)) return false
+            if (borderCollision(i)) return false
+            scenicScore.setSingle(0)
 
             const left = checkLine(x, i - 1, -1, i)
             const right = checkLine(x, i + 1, 1, i)

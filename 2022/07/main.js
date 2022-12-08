@@ -10,11 +10,6 @@ module.exports = {
 
         const pwd = ['/']
 
-        const changePwd = (path) => {
-            pwd.pop()
-            pwd.push(path)
-        }
-
         const addToParent = (parent, num) => {
             if (!parent) return
             tree[parent].size += parseInt(num)
@@ -26,11 +21,11 @@ module.exports = {
 
             if (c[0] == 'cd') {
                 if (c[1] == '/') {
-                    changePwd('/')
+                    pwd.setSingle('/')
                     return
                 }
                 if (c[1] == '..') {
-                    changePwd(tree[pwd[0]].parent)
+                    pwd.setSingle(tree[pwd[0]].parent)
                     return
                 }
                 if (tree[c[1]] !== undefined && tree[c[1]].parent !== pwd[0]) {
@@ -38,7 +33,7 @@ module.exports = {
                         size: 0,
                         parent: pwd[0]
                     } 
-                    changePwd(c[1] + i)
+                    pwd.setSingle(c[1] + i)
                     return
                 }
 
@@ -46,7 +41,7 @@ module.exports = {
                     size: 0,
                     parent: pwd[0]
                 }
-                changePwd(c[1])
+                pwd.setSingle(c[1])
             }
 
             if (c[0] == 'ls') {
