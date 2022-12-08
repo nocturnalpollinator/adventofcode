@@ -5,6 +5,12 @@ Object.defineProperties(Array.prototype, {
         },
         configurable: true
     },
+    factor: {
+        value: function(val = 1) {
+            return this.reduce((a, b) => a * b, val)
+        },
+        configurable: true
+    },
     last: {
         get: function() {
             return this[this.length - 1]

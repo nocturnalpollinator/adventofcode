@@ -7,9 +7,9 @@ module.exports = {
         const scenicScore = [0];
         const scenicScores = []
 
-        const countScenic = (basei, i, modifier) => scenicScore.setSingle(scenicScore[0] == 0 ? Math.abs(basei - i) / Math.abs(modifier) : scenicScore[0] * (Math.abs(basei - i) / Math.abs(modifier)))
+        const countScenic = (basei, i, modifier) => scenicScore.setSingle(scenicScore.last == 0 ? Math.abs(basei - i) / Math.abs(modifier) : scenicScore.last * (Math.abs(basei - i) / Math.abs(modifier)))
 
-        const borderCollision = i => i < width || i % width == 0 || i % width == width - 1 || i > (width * height - width - 1)
+        const borderCollision = i => i < width || i % width == 0 || i % width == width - 1 || i > width * height - width - 1
 
         const checkLine = (x, i, modifier, basei) => {
             if (x <= grid[i]) {
@@ -34,7 +34,7 @@ module.exports = {
             const up = checkLine(x, i - width, -width, i) 
             const down = checkLine(x, i + width, width, i)
 
-            scenicScores.push(scenicScore[0])
+            scenicScores.push(scenicScore.last)
 
             return left && right && up && down
         })
