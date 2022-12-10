@@ -3,7 +3,7 @@ module.exports = {
         const n = helpers.fsn
 
         const h = { x: 0, y: 0 }
-        const t = Array.from({length: 9}, x => [{x: 0, y: 0}])
+        const t = Array.from({length: 9}, _ => [{x: 0, y: 0}])
 
         const distance = (from, to) => [{ x: to.x - from.x, y: to.y - from.y }]
 
@@ -18,7 +18,7 @@ module.exports = {
         n.map(x => {
             const c = x.split(' ')
             const d = c[0]
-            Array.from({length: c[1]}).map(x => {
+            Array.from({length: c[1]}).map(_ => {
                 switch (d) {
                     case 'R': h.x++
                         break
@@ -30,7 +30,7 @@ module.exports = {
                         break
                 }
 
-                t.map((x, i) => tpush(i, i == 0 ? h : t[i-1].last))
+                t.map((_, i) => tpush(i, i == 0 ? h : t[i-1].last))
             })
         })
 
