@@ -25,17 +25,12 @@ module.exports = {
 
         n.map(x => {
             const c = x.split(' ')
-
-            if (c[0].includes('noop')) {
-                cycle()    
-                signalCheck()
-                return
-            }
-            Array.from({length: 2}).map((_, i) => {
-                cycle()
-                signal[0] += i ? parseInt(c[1]) : 0
-                signalCheck()
-            })
+            cycle()
+            signalCheck()
+            if (c[0].includes('noop')) return
+            cycle()
+            signal[0] += parseInt(c[1])
+            signalCheck()
         })
         
         const pt1 = signalCollection.sum()
