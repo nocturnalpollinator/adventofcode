@@ -2,154 +2,36 @@ module.exports = {
     run: (helpers) => {
         const n = helpers.fsn
 
-        const h = {
-            x: 0,
-            y: 0
-        }
-        const t = [
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}],
-            [{x: 0, y:0}]
-        ]
+        const h = { x: 0, y: 0 }
+        const t = Array.from({length: 9}, x => [{x: 0, y: 0}])
 
         const distance = (from, to) => [{ x: to.x - from.x, y: to.y - from.y }]
 
         const tpush = (ti, leading) => {
             const dist = distance(t[ti].last, leading).pop()
+            const moveX = dist.x > 1 ? 1 : (dist.x == 0 || Math.abs(dist.x) == 1 ? 0 : -1);
+            const moveY = dist.y > 1 ? 1 : (dist.y == 0 || Math.abs(dist.y) == 1 ? 0 : -1);
 
-            // ^^>>
-            if (dist.x == 2 && dist.y == 2) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y + 1})
-                return
-            }
-            // ^^<<
-            if (dist.x == -2 && dist.y == 2) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y + 1})
-                return
-            }
-            // >>..
-            if (dist.x == 2 && dist.y == -2) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y - 1})
-                return
-            }
-            // <<..
-            if (dist.x == -2 && dist.y == -2) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y - 1})
-                return
-            }
-            // >
-            if (dist.x == 2 && dist.y == 0) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y})
-                return
-            }
-
-            // <
-            if (dist.x == -2 && dist.y == 0) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y})
-                return
-            }
-
-            // ^ 
-            if (dist.x == 0 && dist.y == 2) {
-                t[ti].push({x: t[ti].last.x, y: t[ti].last.y + 1})
-                return
-            }
-
-            // .
-            if (dist.x == 0 && dist.y == -2) {
-                t[ti].push({x: t[ti].last.x, y: t[ti].last.y - 1})
-                return
-            }
-
-            // >^^
-            if (dist.x == 1 && dist.y == 2) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y + 1})
-                return
-            }
-
-            // ^^<
-            if (dist.x == -1 && dist.y == 2) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y + 1})
-                return
-            }
-
-            // >>^
-            if (dist.x == 2 && dist.y == 1) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y + 1})
-                return
-            }
-
-            // ^<<
-            if (dist.x == -2 && dist.y == 1) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y + 1})
-                return
-            }
-
-            // >..
-            if (dist.x == 1 && dist.y == -2) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y - 1})
-                return
-            } 
-            
-            // <..
-            if (dist.x == -1 && dist.y == -2) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y - 1})
-                return
-            } 
-
-            // >>.
-            if (dist.x == 2 && dist.y == -1) {
-                t[ti].push({x: t[ti].last.x + 1, y: t[ti].last.y - 1})
-                return
-            }
-
-            // <<.
-            if (dist.x == -2 && dist.y == -1) {
-                t[ti].push({x: t[ti].last.x - 1, y: t[ti].last.y - 1})
-                return
-            }
-            
-            t[ti].push({x: t[ti].last.x, y: t[ti].last.y})
+            t[ti].push({x: t[ti].last.x + moveX, y: t[ti].last.y + moveY})
         }
 
         n.map(x => {
             const c = x.split(' ')
             const d = c[0]
-            const l = c[1]
-
-            for (var i = 0; i < l; i++) {
-
+            Array.from({length: c[1]}).map(x => {
                 switch (d) {
-                    case 'R': 
-                        h.x++
+                    case 'R': h.x++
                         break
-                    case 'L': 
-                        h.x--
+                    case 'L': h.x--
                         break
-                    case 'U': 
-                        h.y++
+                    case 'U': h.y++
                         break
-                    case 'D': 
-                        h.y--
+                    case 'D': h.y--
                         break
-
                 }
 
-                t.forEach((x, i) => {
-                    if (i == 0) {
-                        tpush(0, h)
-                        return
-                    }
-                    tpush(i, t[i-1].last)
-                })
-
-            }
+                t.map((x, i) => tpush(i, i == 0 ? h : t[i-1].last))
+            })
         })
 
 
