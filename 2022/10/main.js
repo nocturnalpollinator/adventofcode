@@ -8,6 +8,7 @@ module.exports = {
         const currentRow = [0]
         const rowLength = 40
 
+
         const draw = () => {
             const signalHere = signal[0] <= cycles[0] % rowLength && signal[0] + 2 >= cycles[0] % rowLength
             rows[currentRow[0]][(cycles[0] % rowLength) - 1] = signalHere ? '#' : '.'
@@ -15,7 +16,7 @@ module.exports = {
 
         const cycle = () => {
             draw()
-            cycles[0] += 1
+            cycles[0]++
             rowCheck()
         }
 
