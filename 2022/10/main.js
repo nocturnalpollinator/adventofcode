@@ -9,7 +9,7 @@ module.exports = {
         const rowLength = 40
 
         const draw = () => {
-            const signalHere = signal[0] <= cycles[0] % rowLength && signal[0] + 2 >= cycles[0] % rowLength
+            const signalHere = [0,1,2].includes(cycles[0] % rowLength - signal[0])
             rows[currentRow[0]][(cycles[0] % rowLength) - 1] = signalHere ? '#' : '.'
         } 
 
