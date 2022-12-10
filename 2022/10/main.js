@@ -21,7 +21,7 @@ module.exports = {
 
         const rowCheck = () => currentRow[0] += cycles[0] % rowLength == 0 && cycles[0] !== rows.length * rowLength
 
-        const signalCheck = () => cycles[0] == 20 || cycles[0] % rowLength == 20 ? signalCollection.push(signal[0] * cycles[0]) : false
+        const signalCheck = () => cycles[0] % rowLength == 20 ? signalCollection.push(signal[0] * cycles[0]) : false
 
         n.map(x => {
             const c = x.split(' ')
