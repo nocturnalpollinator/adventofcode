@@ -6,10 +6,11 @@ module.exports = {
         const signalCollection = []
         const rows = Array.from({length: 6}, _ => [])
         const currentRow = [0]
+        const rowLength = 40
 
         const draw = () => {
-            const signalHere = signal[0] == cycles[0] % 40 || signal[0] + 1 == cycles[0] % 40 || signal[0] + 2 == cycles[0] % 40
-            rows[currentRow[0]][(cycles[0] % 40) - 1] = signalHere ? '#' : '.'
+            const signalHere = signal[0] <= cycles[0] % rowLength && signal[0] + 2 >= cycles[0] % rowLength
+            rows[currentRow[0]][(cycles[0] % rowLength) - 1] = signalHere ? '#' : '.'
         } 
 
         const cycle = () => {
@@ -18,10 +19,10 @@ module.exports = {
             rowCheck()
         }
 
-        const rowCheck = () => currentRow[0] += cycles[0] % 40 == 0 && cycles[0] !== 240
+        const rowCheck = () => currentRow[0] += cycles[0] % rowLength == 0 && cycles[0] !== rows.length * rowLength
 
         const signalCheck = () => {
-            if (cycles[0] == 20 || cycles[0] % 40 == 20) {
+            if (cycles[0] == 20 || cycles[0] % rowLength == 20) {
                 signalCollection.push(signal[0] * cycles[0])
             }
         }
