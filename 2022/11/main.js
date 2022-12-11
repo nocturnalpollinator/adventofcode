@@ -18,11 +18,11 @@ module.exports = {
 
         const mul = (x, y) => x * (y == 'old' ? parseInt(x) : parseInt(y))
         const sum = (x, y) => x + (y == 'old' ? parseInt(x) : parseInt(y))
-        const calcItem = (x, relief) => 
-            Math.floor((x.operation == '*' ? mul(x.items.shift() % supermod, x.operationWith) : sum(x.items.shift() % supermod, x.operationWith)) / (relief ? 3 : 1))
+        const calcItem = (x, relief) => Math.floor((x.operation == '*' ? 
+            mul(x.items.shift() % supermod, x.operationWith) : 
+            sum(x.items.shift() % supermod, x.operationWith)) / (relief ? 3 : 1))
 
- 
-        const monkeyRound = (x, _monki, relief = true) => {
+         const monkeyRound = (x, _monki, relief = true) => {
             while(x.items.length > 0) {
                 const item = calcItem(x, relief)
                 x.inspections++
@@ -33,15 +33,11 @@ module.exports = {
         // Round 1
         const monki = monkiSetup()
         const supermod = monki.reduce((acc, x) => acc * x.division, 1) 
-        Array.from({length: 20}).map(_ => {
-            monki.map(x => monkeyRound(x, monki))
-        })
+        Array.from({length: 20}).map(_ => monki.map(x => monkeyRound(x, monki)))
 
         // Round 2
         const monki2 = monkiSetup()
-        Array.from({length: 10000}).map(_ => {
-            monki2.map(x => monkeyRound(x, monki2, false))
-        })
+        Array.from({length: 10000}).map(_ => monki2.map(x => monkeyRound(x, monki2, false)))
 
         const pt1 = monki.map(x => x.inspections).sortNumDesc().slice(0, 2).factor()
         const pt2 = monki2.map(x => x.inspections).sortNumDesc().slice(0, 2).factor()
