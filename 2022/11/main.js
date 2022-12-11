@@ -1,56 +1,50 @@
 module.exports = {
     run: (helpers) => {
         const n = helpers.file.split('\r\n\r\n')
-        const monki = Array.from({length: 8}, _ => [])
-        const monkiInspections = Array.from({length: 8}, _ => 0)
-        let supermod = 1
-
-        const mul = (x, y) => {
-            const yy = y == 'old' ? parseInt(x) : parseInt(y)
-            return x * yy
-        }
-
-        const sum = (x, y) => {
-            const yy = y == 'old' ? parseInt(x) : parseInt(y)
-            return x + yy
-        }
-
-        n.map(x => {
+       
+        const monkiSetup = () => n.map(x => {
             const s = x.split('\r\n').map(x => x.split(': ').last)
-            const divisible = parseInt(s[3].split(' ').last)
-            supermod *= parseInt(divisible)
+            const op = s[2].split(' ').slice(-2)
+            return {
+                items: s[1].split(', ').arrToInt(),
+                operation: op[0],
+                operationWith: op[1],
+                division: parseInt(s[3].split(' ').last),
+                success: parseInt(s[4].split(' ').last),
+                fail: parseInt(s[5].split(' ').last),
+                inspections: 0
+            }
         })
 
-        for (var ii = 0; ii < 10000; ii++) {
+        const mul = (x, y) => x * (y == 'old' ? parseInt(x) : parseInt(y))
+        const sum = (x, y) => x + (y == 'old' ? parseInt(x) : parseInt(y))
+        const calcItem = (x, relief) => 
+            Math.floor((x.operation == '*' ? mul(x.items.shift() % supermod, x.operationWith) : sum(x.items.shift() % supermod, x.operationWith)) / (relief ? 3 : 1))
 
-            n.map((x, i) => {
-                const s = x.split('\r\n').map(x => x.split(': ').last)
-                if (ii == 0) {
-                    s[1].split(', ').arrToInt().map(x => monki[i].push(x))
-                }
-                const op = s[2].split(' ').slice(-2)
-                const divisible = parseInt(s[3].split(' ').last)
-                const success = parseInt(s[4].split(' ').last)
-                const fail = parseInt(s[5].split(' ').last)
-
-                while (monki[i].length > 0) {
-                    const monkiItem = monki[i].shift() % supermod
-                    // const newItem = Math.floor((op[0] == '*' ? mul(monkiItem, op[1]) : sum(monkiItem, op[1])) / 3)
-                    const newItem = op[0] == '*' ? mul(monkiItem, op[1]) : sum(monkiItem, op[1])
-                    monkiInspections[i]++
-                    if (newItem % divisible == 0) {
-                        monki[success].push(newItem)
-                        continue
-                    }
-                    monki[fail].push(newItem )
-                }
-            })
+ 
+        const monkeyRound = (x, _monki, relief = true) => {
+            while(x.items.length > 0) {
+                const item = calcItem(x, relief)
+                x.inspections++
+                _monki[item % x.division == 0 ? x.success : x.fail].items.push(item)
+            }
         }
-    
-        console.log(monkiInspections.sortNumDesc().slice(0, 2).factor())
 
-        const pt1 = 1
-        const pt2 = 2
+        // Round 1
+        const monki = monkiSetup()
+        const supermod = monki.reduce((acc, x) => acc * x.division, 1) 
+        Array.from({length: 20}).map(_ => {
+            monki.map(x => monkeyRound(x, monki))
+        })
+
+        // Round 2
+        const monki2 = monkiSetup()
+        Array.from({length: 10000}).map(_ => {
+            monki2.map(x => monkeyRound(x, monki2, false))
+        })
+
+        const pt1 = monki.map(x => x.inspections).sortNumDesc().slice(0, 2).factor()
+        const pt2 = monki2.map(x => x.inspections).sortNumDesc().slice(0, 2).factor()
 
         return { result: `Part I: ${pt1}\nPart II: ${pt2}` }
     }
