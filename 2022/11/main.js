@@ -18,13 +18,13 @@ module.exports = {
 
         const mul = (x, y) => x * (y == 'old' ? parseInt(x) : parseInt(y))
         const sum = (x, y) => x + (y == 'old' ? parseInt(x) : parseInt(y))
-        const calcItem = (x, relief) => Math.floor((x.operation == '*' ? 
+        const calcItem = (x, d) => Math.floor((x.operation == '*' ? 
             mul(x.items.shift() % supermod, x.operationWith) : 
-            sum(x.items.shift() % supermod, x.operationWith)) / (relief ? 3 : 1))
+            sum(x.items.shift() % supermod, x.operationWith)) / d)
 
          const monkeyRound = (x, _monki, relief = true) => {
             while(x.items.length > 0) {
-                const item = calcItem(x, relief)
+                const item = calcItem(x, relief ? 3 : 1)
                 x.inspections++
                 _monki[item % x.division == 0 ? x.success : x.fail].items.push(item)
             }
