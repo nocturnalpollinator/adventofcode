@@ -16,13 +16,12 @@ module.exports = {
             }
         })
 
-        const mul = (x, y) => x * (y == 'old' ? parseInt(x) : parseInt(y))
-        const sum = (x, y) => x + (y == 'old' ? parseInt(x) : parseInt(y))
-        const calcItem = (x, d) => Math.floor((x.operation == '*' ? 
-            mul(x.items.shift() % supermod, x.operationWith) : 
-            sum(x.items.shift() % supermod, x.operationWith)) / d)
-
-         const monkeyRound = (x, _monki, relief = true) => {
+        const calcItem = (x, d) => {
+            const a = x.items.shift()
+            return Math.floor(helpers.calc(a % supermod, x.operationWith, x.operation, a) / d)
+        }
+        
+        const monkeyRound = (x, _monki, relief = true) => {
             while(x.items.length > 0) {
                 const item = calcItem(x, relief ? 3 : 1)
                 x.inspections++
