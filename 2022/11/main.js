@@ -15,17 +15,13 @@ module.exports = {
                 inspections: 0
             }
         })
-
-        const calcItem = (x, d) => {
-            const a = x.items.shift()
-            return Math.floor(helpers.calc(a % supermod, x.operationWith, x.operation, a) / d)
-        }
         
         const monkeyRound = (x, _monki, relief = true) => {
             while(x.items.length > 0) {
-                const item = calcItem(x, relief ? 3 : 1)
+                const item = x.items.shift()
+                const newItem = Math.floor(helpers.calc(item % supermod, x.operationWith, x.operation, item) / (relief ? 3 : 1))
                 x.inspections++
-                _monki[item % x.division == 0 ? x.success : x.fail].items.push(item)
+                _monki[newItem % x.division == 0 ? x.success : x.fail].items.push(newItem)
             }
         }
 
